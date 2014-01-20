@@ -36,7 +36,7 @@ class bacula::director {
     noop    => $bacula::noops,
   }
 
- service { $bacula::director_service:
+  service { $bacula::director_service:
       ensure     => $bacula::manage_service_ensure,
       name       => $bacula::director_service,
       enable     => $bacula::manage_service_enable,

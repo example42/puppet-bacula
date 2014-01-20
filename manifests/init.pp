@@ -434,22 +434,22 @@ class bacula (
   #### Include related classes
 
   ### Client configuration
-  if $bacula::is_client == 'true' {
+  if $bacula::is_client == true {
     include bacula::client
   }
 
   ### Storage configuration
-  if $bacula::is_storage == 'true' {
+  if $bacula::is_storage == true {
     include bacula::storage
   }
 
   ### Director configuration
-  if $bacula::is_director == 'true' {
+  if $bacula::is_director == true {
     include bacula::director
   }
 
   ### Console configuration
-  if $bacula::manage_console == 'true' {
+  if $bacula::manage_console == true {
     include bacula::console
   }
 

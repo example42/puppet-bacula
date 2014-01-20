@@ -36,7 +36,7 @@ class bacula::storage {
     noop    => $bacula::noops,
   }
 
- service { $bacula::storage_service:
+  service { $bacula::storage_service:
       ensure     => $bacula::manage_service_ensure,
       name       => $bacula::storage_service,
       enable     => $bacula::manage_service_enable,
