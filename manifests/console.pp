@@ -11,7 +11,7 @@ class bacula::console {
   include bacula
 
   ### Managed resources
-  package { $bacula::manage_console_package:
+  package { $bacula::console_package:
     ensure  => $bacula::manage_package,
     noop    => $bacula::bool_noops,
   }
