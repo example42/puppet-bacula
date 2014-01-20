@@ -311,11 +311,6 @@ class bacula (
     },
   }
 
-  $manage_service_autorestart = $bacula::bool_service_autorestart ? {
-    true    => Service[bacula],
-    false   => undef,
-  }
-
   $manage_file = $bacula::bool_absent ? {
     true    => 'absent',
     default => 'present',
