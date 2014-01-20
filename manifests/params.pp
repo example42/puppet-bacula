@@ -154,10 +154,14 @@ class bacula::params {
 
   # General Settings
   $my_class = ''
-  $source = ''
+  $client_source = ''
+  $storage_source = ''
+  $director_source = ''
   $source_dir = ''
   $source_dir_purge = false
-  $template = ''
+  $client_template = ''
+  $storage_template = ''
+  $director_template = ''
   $options = ''
   $service_autorestart = true
   $version = 'present'
