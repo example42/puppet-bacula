@@ -10,6 +10,11 @@ class bacula::storage {
 
   include bacula
 
+  $manage_service_autorestart = $bacula::bool_service_autorestart ? {
+    true    => Service[$bacula::storage_service],
+    false   => undef,
+  }
+
   ### Managed resources
   package { $bacula::storage_package:
     ensure  => $bacula::manage_package,
@@ -23,7 +28,7 @@ class bacula::storage {
     owner   => $bacula::config_file_owner,
     group   => $bacula::config_file_group,
     require => Package[$bacula::storage_package],
-    notify  => $bacula::manage_service_autorestart,
+    notify  => $manage_service_autorestart,
     source  => $bacula::manage_storage_file_source,
     content => $bacula::manage_storage_file_content,
     replace => $bacula::manage_file_replace,
@@ -31,7 +36,7 @@ class bacula::storage {
     noop    => $bacula::noops,
   }
 
- service { $bacula::storage_service:
+  service { $bacula::storage_service:
       ensure     => $bacula::manage_service_ensure,
       name       => $bacula::storage_service,
       enable     => $bacula::manage_service_enable,

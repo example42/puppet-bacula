@@ -13,10 +13,14 @@
 #   If defined, bacula class will automatically "include $my_class"
 #   Can be defined also by the (top scope) variable $bacula_myclass
 #
-# [*source*]
-#   Sets the content of source parameter for main configuration file
-#   If defined, bacula main config file will have the param: source => $source
-#   Can be defined also by the (top scope) variable $bacula_source
+# [*client_source*]
+#   Sets the content of source parameter for file daemon configuration file
+#
+# [*storage_source*]
+#   Sets the content of source parameter for storage daemon configuration file
+#
+# [*director_source*]
+#   Sets the content of source parameter for director daemon configuration file
 #
 # [*source_dir*]
 #   If defined, the whole bacula configuration directory content is retrieved
@@ -30,11 +34,14 @@
 #   (source => $source_dir , recurse => true , purge => true)
 #   Can be defined also by the (top scope) variable $bacula_source_dir_purge
 #
-# [*template*]
-#   Sets the path to the template to use as content for main configuration file
-#   If defined, bacula main config file has: content => content("$template")
-#   Note source and template parameters are mutually exclusive: don't use both
-#   Can be defined also by the (top scope) variable $bacula_template
+# [*client_template*]
+#   Sets the path to the template to use as content for file daemon
+#
+# [*storage_template*]
+#   Sets the path to the template to use as content for storage daemon
+#
+# [*director_template*]
+#   Sets the path to the template to use as content for director daemon
 #
 # [*options*]
 #   An hash of custom options to be used in templates for arbitrary settings.
@@ -201,10 +208,14 @@
 #
 class bacula (
   $my_class                   = params_lookup( 'my_class' ),
-  $source                     = params_lookup( 'source' ),
+  $client_source              = params_lookup( 'client_source' ),
+  $storage_source             = params_lookup( 'storage_source' ),
+  $director_source            = params_lookup( 'director_source' ),
   $source_dir                 = params_lookup( 'source_dir' ),
   $source_dir_purge           = params_lookup( 'source_dir_purge' ),
-  $template                   = params_lookup( 'template' ),
+  $client_template            = params_lookup( 'client_template' ),
+  $storage_template           = params_lookup( 'storage_template' ),
+  $director_template          = params_lookup( 'director_template' ),
   $service_autorestart        = params_lookup( 'service_autorestart' , 'global' ),
   $options                    = params_lookup( 'options' ),
   $version                    = params_lookup( 'version' ),
@@ -311,11 +322,6 @@ class bacula (
     },
   }
 
-  $manage_service_autorestart = $bacula::bool_service_autorestart ? {
-    true    => Service[bacula],
-    false   => undef,
-  }
-
   $manage_file = $bacula::bool_absent ? {
     true    => 'absent',
     default => 'present',
@@ -346,14 +352,34 @@ class bacula (
     false => true,
   }
 
-  $manage_file_source = $bacula::source ? {
+  $manage_client_file_source = $bacula::client_source ? {
     ''        => undef,
-    default   => $bacula::source,
+    default   => $bacula::client_source,
   }
 
-  $manage_file_content = $bacula::template ? {
+  $manage_storage_file_source = $bacula::storage_source ? {
     ''        => undef,
-    default   => template($bacula::template),
+    default   => $bacula::storage_source,
+  }
+
+  $manage_director_file_source = $bacula::director_source ? {
+    ''        => undef,
+    default   => $bacula::director_source,
+  }
+
+  $manage_client_file_content = $bacula::client_template ? {
+    ''        => undef,
+    default   => template($bacula::client_template),
+  }
+
+  $manage_storage_file_content = $bacula::storage_template ? {
+    ''        => undef,
+    default   => template($bacula::storage_template),
+  }
+
+  $manage_director_file_content = $bacula::director_template ? {
+    ''        => undef,
+    default   => template($bacula::director_template),
   }
 
   ### Managed resources

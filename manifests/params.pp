@@ -26,17 +26,17 @@ class bacula::params {
 
   $client_package = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'bacula-fd',
-    default => 'bacula-client',
+    default                   => 'bacula-client',
   }
 
   $storage_package = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'bacula-sd-mysql',
-    default => 'bacula-storage-mysql',
+    default                   => 'bacula-storage-mysql',
   }
 
   $director_package = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'bacula-director-mysql',
-    default => 'bacula-director-mysql',
+    default                   => 'bacula-director-mysql',
   }
 
   $console_package = $::operatingsystem ? {
@@ -52,7 +52,8 @@ class bacula::params {
   }
 
   $director_service = $::operatingsystem ? {
-    default => 'bacula-dir',
+  /(?i:Debian|Ubuntu|Mint)/ => 'bacula-director',
+    default                 => 'bacula-dir',
   }
 
   $service_status = $::operatingsystem ? {
@@ -153,10 +154,14 @@ class bacula::params {
 
   # General Settings
   $my_class = ''
-  $source = ''
+  $client_source = ''
+  $storage_source = ''
+  $director_source = ''
   $source_dir = ''
   $source_dir_purge = false
-  $template = ''
+  $client_template = ''
+  $storage_template = ''
+  $director_template = ''
   $options = ''
   $service_autorestart = true
   $version = 'present'
